@@ -1,16 +1,14 @@
-const contactOperations = require('../../models/contacts');
+const {Contact, joiSchema} = require('../../mongodb/model');
 const {BadRequest} = require('http-errors');
-
-const contactSchema = require('./validate');
 
 const addContact = async (req, res, next) => {
     try {
-      const {error} = await contactSchema.validate(req.body);
-      
+      const {error} = await joiSchema.validate(req.body);
+
       if(error){
         throw new BadRequest('missing required name field');
       }
-      const newContact = await contactOperations.addContact(req.body);
+      const newContact = await Contact.create(req.body);
       
       res.status(201).json({
       status: 'success',

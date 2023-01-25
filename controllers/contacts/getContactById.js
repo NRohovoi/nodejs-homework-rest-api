@@ -1,10 +1,10 @@
-const {Contact} = require('../../mongodb/model');
+const {model: srvc} = require('../../service');
 const {NotFound} = require('http-errors');
 
 const getContactById = async (req, res, next) => {
     try {
       const {contactId} = await req.params;
-      const contact = await Contact.findById(contactId);
+      const contact = await srvc.contactModel.Contact.findById(contactId).populate('owner', '_id email');
       
       if(!contact){
         throw new NotFound('Not found');

@@ -1,14 +1,16 @@
-const {Contact, joiSchema} = require('../../mongodb/model');
+const {model: srvc} = require('../../service');
 const {BadRequest} = require('http-errors');
 
 const addContact = async (req, res, next) => {
     try {
-      const {error} = await joiSchema.validate(req.body);
+      const {error} = await srvc.contactModel.joiSchema.validate(req.body);
 
       if(error){
         throw new BadRequest('missing required name field');
       }
-      const newContact = await Contact.create(req.body);
+
+      const {_id} = req.user;
+      const newContact = await srvc.contactModel.Contact.create({...req.body, owner: _id});
       
       res.status(201).json({
       status: 'success',

@@ -1,11 +1,12 @@
 const express = require('express');
 const {contacts: ctrl} = require('../../controllers');
+const {middlewares: srvc} = require('../../service');
 
 const router = express.Router();
 
-router.get('/', ctrl.listContacts);
+router.get('/', srvc.auth, ctrl.listContacts);
 router.get('/:contactId', ctrl.getContactById);
-router.post('/', ctrl.addContact);
+router.post('/', srvc.auth, ctrl.addContact);
 router.delete('/:contactId', ctrl.removeContact);
 router.put('/:contactId', ctrl.updateContact);
 router.patch('/:contactId/favorite', ctrl.updateStatusContact);

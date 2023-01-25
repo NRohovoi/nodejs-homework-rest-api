@@ -1,10 +1,10 @@
-const {Contact} = require('../../mongodb/model');
+const {model: srvc} = require('../../service');
 const {NotFound} = require('http-errors');
 
 const removeContact = async (req, res, next) => {
     try {
       const {contactId} = await req.params;
-      const deletedContact = await Contact.findByIdAndRemove(contactId);
+      const deletedContact = await srvc.contactModel.Contact.findByIdAndRemove(contactId);
       
       if(!deletedContact){
         throw new NotFound('Not found');

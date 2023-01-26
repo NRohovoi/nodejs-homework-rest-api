@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get('/current', srvc.auth, ctrl.getCurrent);
 router.patch('/', srvc.auth, ctrl.updateSubscription);
+router.patch('/avatars', srvc.auth, srvc.upload.single('avatar'), ctrl.uploadAvatar);
 
 module.exports = router;

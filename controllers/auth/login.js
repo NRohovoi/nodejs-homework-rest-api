@@ -14,8 +14,8 @@ const login = async (req, res, next) => {
     const {email, password} = req.body;
     const user = await srvc.authModel.User.findOne({email});
 
-    if(!user || !user.comparePassword(password)){
-      throw new Unauthorized('Email or password is wrong');
+    if(!user || !user.verify || !user.comparePassword(password)) {
+      throw new Unauthorized('Email or password is wrong or not verify');
     };
 
 		const payload = {
